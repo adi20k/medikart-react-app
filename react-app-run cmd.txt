@@ -1,0 +1,23 @@
+#create project
+npx @react-native-community/cli@latest init MediKart
+
+
+# run on android emulator
+npm run android
+
+
+#navigation 
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context
+npm install @react-navigation/native-stack
+npm install @react-navigation/bottom-tabs
+
+
+npx react-native run-android
+
+
+cd android
+./gradlew clean
+
+
+
