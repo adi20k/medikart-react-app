@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-quotes */
 /* eslint-disable react-native/no-inline-styles */
 import {
@@ -8,13 +10,20 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import React from 'react';
-import Button from '../../components/Button'; // Assuming your custom Button component
+import React, {useCallback, useState} from 'react';
+import Button from '../../components/Button/Button'; // Assuming your custom Button component
 import {useNavigation} from '@react-navigation/native'; // Import useNavigation
 
 const LoginScreen = () => {
-  const navigation = useNavigation(); // Get the navigation object
+  const {navigate} = useNavigation(); // Get the navigation object
+  const [mobileNo, setMobileNumber] = useState('');
 
+  const onPressLogin = useCallback(() => {
+    if (mobileNo.length === 10) {
+      console.log('mobileNo :' + mobileNo);
+      navigate('OtpVerify', {mobileNo: mobileNo});
+    }
+  }, [mobileNo]);
   return (
     <View style={styles.container}>
       <View style={styles.background}>
@@ -37,13 +46,14 @@ const LoginScreen = () => {
               keyboardType="numeric"
               placeholder="Phone Number"
               maxLength={10}
+              onChangeText={setMobileNumber}
             />
           </View>
 
           <Button
             label={'Login with Mobile'}
             style={styles.signInButton}
-            onPress={() => navigation.navigate('Onboarding')} // Assuming 'SignInScreen' is your route name
+            onPress={onPressLogin} // Assuming 'SignInScreen' is your route name
           />
         </View>
 
@@ -51,7 +61,9 @@ const LoginScreen = () => {
         <View style={styles.buttonContainer}>
           <Button style={styles.googleSignInButton}>
             <Image source={require('../../assets/img/google_icon.png')} />
-            <Text style={{color:'Black',fontSize:18}}>Continue with Google</Text>
+            <Text style={{color: 'Black', fontSize: 18}}>
+              Continue with Google
+            </Text>
           </Button>
         </View>
       </View>
@@ -120,15 +132,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: 'white', // Ensure it has a background if contentSection doesn't cover it fully
     paddingBottom: 20, // Add some padding at the very bottom for better visual
+    paddingTop: 20,
   },
   signInButton: {
     backgroundColor: '#0B3DA9',
   },
   googleSignInButton: {
-    flexDirection:'row',
-    gap:8,
-    borderColor:'#939393',
-    borderWidth:2,
+    flexDirection: 'row',
+    gap: 8,
+    borderColor: '#939393',
+    borderWidth: 1,
     backgroundColor: 'white',
   },
 });
